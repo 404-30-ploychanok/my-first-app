@@ -7,7 +7,7 @@ st.set_page_config(
 
 st.title("⏱️ เกมเติมศัพท์จับเวลา")
 
-# 1. กำหนดค่าเริ่มต้นใน session_state (ข้อ 1 - 6)
+# 1. กำหนดค่าเริ่มต้นใน session_state (ข้อ 1 - 4)
 if "ans1_val" not in st.session_state:
     st.session_state.ans1_val = ""
 if "ans2_val" not in st.session_state:
@@ -16,10 +16,6 @@ if "ans3_val" not in st.session_state:
     st.session_state.ans3_val = ""
 if "ans4_val" not in st.session_state:
     st.session_state.ans4_val = ""
-if "ans5_val" not in st.session_state:
-    st.session_state.ans5_val = ""
-if "ans6_val" not in st.session_state:
-    st.session_state.ans6_val = ""
 
 
 # 📌 ฟังก์ชันเคลียร์ค่าเมื่อกดปุ่มเริ่มใหม่
@@ -28,8 +24,6 @@ def reset_game():
     st.session_state.ans2_val = ""
     st.session_state.ans3_val = ""
     st.session_state.ans4_val = ""
-    st.session_state.ans5_val = ""
-    st.session_state.ans6_val = ""
     st.session_state.start = time.time()
     st.session_state.is_ended = False
 
@@ -38,7 +32,7 @@ def reset_game():
 # 📌 ฟังก์ชัน MessageBox (Dialog)
 # ----------------------------------------------------
 @st.dialog("📊 สรุปผลการเล่นเกม")
-def show_result_dialog(ans1, ans2, ans3, ans4, ans5, ans6):
+def show_result_dialog(ans1, ans2, ans3, ans4):
     st.balloons()
     score = 0
 
@@ -46,8 +40,6 @@ def show_result_dialog(ans1, ans2, ans3, ans4, ans5, ans6):
     u_ans2 = ans2.strip().lower()
     u_ans3 = ans3.strip().lower()
     u_ans4 = ans4.strip().lower()
-    u_ans5 = ans5.strip().lower()
-    u_ans6 = ans6.strip().lower()
 
     # ตรวจข้อ 1
     if u_ans1 == "apple":
@@ -77,23 +69,9 @@ def show_result_dialog(ans1, ans2, ans3, ans4, ans5, ans6):
     else:
         st.error(f"❌ ข้อ 4: ยังไม่ถูกต้อง (คุณตอบ '{u_ans4}')")
 
-    # ตรวจข้อ 5
-    if u_ans5 == "mangosteen":
-        st.success("✅ ข้อ 5: ถูกต้อง")
-        score += 1
-    else:
-        st.error(f"❌ ข้อ 5: ยังไม่ถูกต้อง (คุณตอบ '{u_ans5}')")
+    st.info(f"🏆 ได้คะแนนรวม: {score} / 4 คะแนน")
 
-    # ตรวจข้อ 6
-    if u_ans6 == "watermelon":
-        st.success("✅ ข้อ 6: ถูกต้อง")
-        score += 1
-    else:
-        st.error(f"❌ ข้อ 6: ยังไม่ถูกต้อง (คุณตอบ '{u_ans6}')")
-
-    st.info(f"🏆 ได้คะแนนรวม: {score} / 6 คะแนน")
-
-    if score == 6:
+    if score == 4:
         st.success("🎉 You win!")
     else:
         st.error("💀 You lose!")
@@ -133,22 +111,12 @@ ans4 = st.text_input(
     "ข้อ 4: Monkeys love to eat `b _ n _ n a`. 🍌",
     value=st.session_state.ans4_val,
 )
-ans5 = st.text_input(
-    "ข้อ 5: The queen of fruits is `m _ n g _ s t _ _ n`. 🍇",
-    value=st.session_state.ans5_val,
-)
-ans6 = st.text_input(
-    "ข้อ 6: A big sweet red fruit is `w _ t _ r m _ l _ n`. 🍉",
-    value=st.session_state.ans6_val,
-)
 
 # อัปเดตค่าล่าสุดเข้าตัวแปร
 st.session_state.ans1_val = ans1
 st.session_state.ans2_val = ans2
 st.session_state.ans3_val = ans3
 st.session_state.ans4_val = ans4
-st.session_state.ans5_val = ans5
-st.session_state.ans6_val = ans6
 
 
 # 4. ปุ่มส่งคำตอบ
@@ -162,7 +130,7 @@ if "start" in st.session_state and not st.session_state.get("is_ended", False):
 
 # 5. แสดง Dialog ผลลัพธ์
 if st.session_state.get("is_ended", False):
-    show_result_dialog(ans1, ans2, ans3, ans4, ans5, ans6)
+    show_result_dialog(ans1, ans2, ans3, ans4)
 
 st.divider()
-st.write("นางสาวดีใจ ยิ้มแย้ม เลขที่ 5 ม.4/5")
+st.write("พลอยชนก นราวุฒิเนืองศรี เลขที่ 30 ม.4/4")
